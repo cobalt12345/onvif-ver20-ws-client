@@ -1,0 +1,973 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.sitronics.anti-drone</groupId>
+    <artifactId>onvif-ver20-ws-client</artifactId>
+    <version>1.0.0-SHAPSHOT</version>
+
+    <properties>
+        <cxf.version>3.3.2</cxf.version>
+        <javax.activation.version>1.2.0</javax.activation.version>
+        <jaxb.api.version>2.3.1</jaxb.api.version>
+        <jaxws-api.version>2.3.1</jaxws-api.version>
+        <javax.jws-api.version>1.1</javax.jws-api.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <cxf-xjc-runtime.version>3.3.0</cxf-xjc-runtime.version>
+        <maven-model-builder.version>3.8.6</maven-model-builder.version>
+        <cxf-codegen-plugin.version>3.3.2</cxf-codegen-plugin.version>
+        <cxf-rt-bindings-soap>3.1.0</cxf-rt-bindings-soap>
+        <cxf-xjc-boolean.version>3.1.0</cxf-xjc-boolean.version>
+        <cxf-xjc-ts.version>3.1.0</cxf-xjc-ts.version>
+        <cxf-xjc-runtime.version>3.3.0</cxf-xjc-runtime.version>
+        <maven-model-builde.version>3.8.6</maven-model-builde.version>
+        <jaxb-core.version>2.3.0.1</jaxb-core.version>
+        <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
+        <jaxws-api.version>2.3.1</jaxws-api.version>
+        <activation.version>1.1.1</activation.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <commons-io.version>2.13.0</commons-io.version>
+        <commons-codec.version>1.15</commons-codec.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <!-- <dependency> -->
+        <!-- <groupId>org.apache.cxf</groupId> -->
+        <!-- <artifactId>cxf-rt-transports-http-hc</artifactId> -->
+        <!-- <version>${cxf.version}</version> -->
+        <!-- </dependency> -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http-jetty</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <!-- Java 9+ javax dependencies start -->
+        <dependency>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+            <version>${jaxws-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.jws</groupId>
+            <artifactId>javax.jws-api</artifactId>
+            <version>${javax.jws-api.version}</version>
+        </dependency>
+        <!-- Java 9+ javax dependencies end -->
+        <dependency>
+            <groupId>org.apache.cxf.services.wsn</groupId>
+            <artifactId>cxf-services-wsn-core</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <!-- For creating human readable toString() functions in generated classes. -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf.xjc-utils</groupId>
+            <artifactId>cxf-xjc-runtime</artifactId>
+            <version>${cxf-xjc-runtime.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-model-builder</artifactId>
+            <version>${maven-model-builder.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-security</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+<!--            <version>2.7</version>-->
+            <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+<!--            <version>1.10</version>-->
+            <version>${commons-codec.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+<!--            <version>3.4</version>-->
+            <version>${commons-lang3.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <version>${cxf-codegen-plugin.version}</version>
+                <executions>
+                    <!-- Generate all at once with default package names -->
+<!--                    <execution>-->
+<!--                        <id>generate-onvif-ws-clients</id>-->
+<!--                        <phase>generate-sources</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>wsdl2java</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <wsdlRoot>${basedir}/src/main/resources/onvif</wsdlRoot>-->
+<!--                            <sourceRoot>${basedir}/src/main/java</sourceRoot>-->
+<!--                            <includes>-->
+<!--                                <include>**/*.wsdl</include>-->
+<!--                            </includes>-->
+<!--                            <defaultOptions>-->
+<!--                                <extraargs>-->
+<!--                                    &lt;!&ndash; DataMapper compatibility requires that the boolean getters-->
+<!--                                      and setters follow naming conventions for other getters and setters. &ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                    <extraarg>-p</extraarg>&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                    <extraarg>ru.sitronics.antidrone</extraarg>&ndash;&gt;-->
+<!--                                    <extraarg>-xjc-Xbg</extraarg>-->
+<!--                                    <extraarg>-xjc-Xts</extraarg>  &lt;!&ndash; added for toString() builder &ndash;&gt;-->
+<!--                                    <extraarg>-verbose</extraarg>-->
+<!--                                    <extraarg>-suppress-generated-date</extraarg>-->
+<!--                                    <extraarg>-wsdlLocation</extraarg>-->
+<!--                                    <extraarg>null</extraarg>-->
+<!--                                    <extraarg>-autoNameResolution</extraarg>-->
+<!--                                    <extraarg>-catalog</extraarg>-->
+<!--                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>-->
+<!--                                </extraargs>-->
+<!--                            </defaultOptions>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+                    <execution>
+                        <id>generate-onvif-ws-clients-accessrules</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10/accessrules/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.accessrules</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-advancedsecurity</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10/advancedsecurity/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.advancedsecurity</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-appmgmt</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10/appmgmt/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.appmgmt</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-authenticationbehavior</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10/authenticationbehavior/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.authenticationbehavior</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-credential</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10/credential/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.credential</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-device</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10/device/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.device</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-events</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10/events/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.events</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-media-ver10</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10/media/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.media.ver10</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-pacs</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10/pacs</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.pacs</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-provisioning</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10/provisioning/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.provisioning</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-schedule</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10/schedule/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.schedule</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-thermal</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10/thermal/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.thermal</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-uplink</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10/uplink/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.uplink</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-actionengine</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>actionengine.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.actionengine</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-deviceio</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>deviceio.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.deviceio</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-display</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>display.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.display</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-receiver</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>receiver.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.receiver</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-recording</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>recording.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.recording</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-replay</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>replay.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.replay</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-search</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver10</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>search.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.search</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <!-- ONVIF Version 20 -->
+                    <execution>
+                        <id>generate-onvif-ws-clients-analytics</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver20/analytics/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.analytics</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-imaging</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver20/imaging/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.imaging</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-media-ver20</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver20/media/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.media.ver20</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-onvif-ws-clients-ptz</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlRoot>${basedir}/src/main/resources/onvif/ver20/ptz/wsdl</wsdlRoot>
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
+                            <defaultOptions>
+                                <extraargs>
+                                    <!-- DataMapper compatibility requires that the boolean getters
+                                      and setters follow naming conventions for other getters and setters. -->
+                                    <extraarg>-p</extraarg>
+                                    <extraarg>ru.sitronics.antidrone.onvif.ptz</extraarg>
+                                    <extraarg>-xjc-Xbg</extraarg>
+                                    <extraarg>-xjc-Xts</extraarg>  <!-- added for toString() builder -->
+                                    <extraarg>-verbose</extraarg>
+                                    <extraarg>-suppress-generated-date</extraarg>
+                                    <extraarg>-wsdlLocation</extraarg>
+                                    <extraarg>null</extraarg>
+                                    <extraarg>-autoNameResolution</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/xml-catalog.xml</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-rt-bindings-soap</artifactId>
+                        <version>${cxf-rt-bindings-soap}</version>
+                    </dependency>
+                    <!-- Boolean getters/setters -->
+                    <dependency>
+                        <groupId>org.apache.cxf.xjcplugins</groupId>
+                        <artifactId>cxf-xjc-boolean</artifactId>
+                        <version>${cxf-xjc-boolean.version}</version>
+                    </dependency>
+                    <!-- ToString -->
+                    <dependency>
+                        <groupId>org.apache.cxf.xjcplugins</groupId>
+                        <artifactId>cxf-xjc-ts</artifactId>
+                        <version>${cxf-xjc-ts.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.cxf.xjc-utils</groupId>
+                        <artifactId>cxf-xjc-runtime</artifactId>
+                        <version>${cxf-xjc-runtime.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.maven</groupId>
+                        <artifactId>maven-model-builder</artifactId>
+                        <version>${maven-model-builde.version}</version>
+                    </dependency>
+                    <!-- for java 10+ -->
+                    <dependency>
+                        <groupId>com.sun.activation</groupId>
+                        <artifactId>javax.activation</artifactId>
+                        <version>${javax.activation.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>javax.xml.bind</groupId>
+                        <artifactId>jaxb-api</artifactId>
+                        <version>${jaxb.api.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-core</artifactId>
+                        <version>2.3.0.1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
+                        <version>${jaxb.api.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>javax.annotation</groupId>
+                        <artifactId>javax.annotation-api</artifactId>
+                        <version>${javax.annotation-api.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>javax.xml.ws</groupId>
+                        <artifactId>jaxws-api</artifactId>
+                        <version>${jaxws-api.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>javax.activation</groupId>
+                        <artifactId>activation</artifactId>
+                        <version>${activation.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>17</source> <!-- depending on your project -->
+                    <target>17</target> <!-- depending on your project -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
